@@ -31,8 +31,16 @@ router.put('/:id', function(req, res, next) {
 router.post('/', async function(req, res, next) {
   try {
    let newStudent = await Student.create(req.body)
-    res.status(201)
-    res.send({message: "Student Created", student: newStudent})
+
+  await Test.create({
+     subject: "Music",
+     grade: 100,
+     studentId: newStudent.id
+   })
+
+  const newStudentTest = await Student.findByPk(newStudent.id, {include: [{model: Test}]})
+
+    res.json(newStudentTest)
 
   } catch (error) {
     next(error)
