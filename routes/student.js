@@ -28,6 +28,20 @@ router.put('/:id', function(req, res, next) {
     .catch(next);
 });
 
+router.post('/', async function(req, res, next) {
+  try {
+   let newStudent = await Student.create(req.body)
+    res.status(201)
+    res.send({message: "Student Created", student: newStudent})
+
+  } catch (error) {
+    next(error)
+  }
+
+
+})
+
+
 router.delete('/:id', function(req, res, next) {
   Student.destroy({
     where: {
